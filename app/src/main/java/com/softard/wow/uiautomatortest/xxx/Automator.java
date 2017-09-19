@@ -1,29 +1,40 @@
-package com.softard.wow.uiautomatortest;
+package com.softard.wow.uiautomatortest.xxx;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.test.InstrumentationRegistry;
+import android.os.Bundle;
 import android.support.test.uiautomator.UiAutomatorTestCase;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
+import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiScrollable;
 import android.support.test.uiautomator.UiSelector;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
 
-import org.junit.Test;
-
+//import android.support.test.InstrumentationRegistry;
 
 /**
- * Created by wow on 17-9-11.
+ * Created by wow on 17-9-13.
  */
 
 public class Automator extends UiAutomatorTestCase {
 
-    @Test
-    public void testSettingApp() throws Exception {
-        Context context = InstrumentationRegistry.getContext();
-        UiDevice mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        Bundle params = getParams();
+        Log.d("WOW", "--------------");
+    }
+
+    public void test() throws UiObjectNotFoundException {
+        Log.d("WOW", "++++++++++++++");
+        UiDevice mDevice = getUiDevice();
+        Context context = getInstrumentation().getContext();
+//        getUiDevice().pressHome();
+//        Context context = InstrumentationRegistry.getContext();
+//        UiDevice mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
 
         mDevice.pressHome();
         Intent intent = context.getPackageManager().getLaunchIntentForPackage("com.android.settings");
@@ -42,7 +53,8 @@ public class Automator extends UiAutomatorTestCase {
         UiObject phone = content_system.getChild(new UiSelector().text("About phone"));
         phone.click();
 
-        UiObject btnBack = mDevice.findObject(new UiSelector().className("android.widget.ImageButton").description("Navigate up"));
+        UiObject btnBack = mDevice.findObject(new UiSelector().className("android.widget.ImageButton").description
+                ("Navigate up"));
         btnBack.click();
 
         mDevice.pressBack();
@@ -53,15 +65,12 @@ public class Automator extends UiAutomatorTestCase {
         UiObject ringtone = mDevice.findObject(new UiSelector().textContains("ringtone"));
         ringtone.click();
 
-        UiScrollable listview = new UiScrollable(new UiSelector().className(ListView.class).resourceId("android:id/select_dialog_listview"));
+        UiScrollable listview = new UiScrollable(new UiSelector().className(ListView.class).resourceId
+                ("android:id/select_dialog_listview"));
         listview.scrollTextIntoView("Playa");
         UiObject playa = listview.getChild(new UiSelector().text("Playa"));
         playa.click();
         UiObject btnOk = mDevice.findObject(new UiSelector().text("OK").className(Button.class));
         btnOk.click();
-
-
-
-
     }
 }
